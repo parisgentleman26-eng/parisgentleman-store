@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Catálogo — Paris Gentleman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    --bg: #F4EFE6;
+    --bg-alt: #FFFFFF;
+    --ink: #1B1D22;
+    --ink-dim: #54585A;
+    --brass: #BC9A5E; --brass-soft: #9E7D43; --forest: #222B25;
+    --line: rgba(27, 29, 34, 0.1);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: 'Jost', system-ui, sans-serif; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }                                               
+  h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; margin: 0; color: var(--ink); font-weight: 600; }
+  p { margin: 0; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .badge-strip { background: var(--forest); color: #FFFFFF; text-align: center; font-size: 0.82rem; padding: 8px 16px; }
+
+  /* ===== ENCABEZADO ===== */
+header {
+  background: #000;
+  position: relative;
+  overflow: hidden;
+}
+.header-flex {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 320px;
+  padding: 24px 0 24px 5vw;
+}
+
+/* Logo + textos en un solo bloque */
+.header-brand {
+  --logo-w: clamp(320px, 58vw, 720px);   /* TAMAÑO DEL LOGO: cambiá el 720px */
+  width: var(--logo-w);
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+.header-brand .logo-header {
+  display: block;
+  width: 100%;
+  height: auto;
+  clip-path: inset(0 12% 0 12%);
+}
+.header-brand p {
+  margin: 0 12%;
+  text-wrap: balance;
+  position: relative;
+  z-index: 2;
+}
+.header-brand .tagline {
+  margin-top: calc(var(--logo-w) * -0.065);  /* más negativo = lema más cerca del logo */
+  font-family: 'Parisienne', 'Brush Script MT', cursive;
+  font-size: 30px;                            /* TAMAÑO DEL LEMA en PC */
+  line-height: 1.25;
+  color: #D9D6CC;
+}
+.header-brand .address {
+  margin-top: 10px;
+  font-size: 17px;                            /* TAMAÑO DE LA DIRECCIÓN en PC */
+  line-height: 1.5;
+  color: #9FA2A0;
+}
+
+/* Foto a la derecha: se desvanece hacia el negro */
+.header-photo {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: min(50%, 760px);
+  z-index: 1;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.65) 40%, #000 75%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.65) 40%, #000 75%);
+}
+.header-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: grayscale(100%);
+}
+
+/* Celular */
+@media (max-width: 768px) {
+  .header-photo { display: none; }
+  .header-flex { justify-content: center; min-height: 0; padding: 20px 16px; }
+  .header-brand { width: 100%; max-width: 460px; }
+  .header-brand .logo-header { width: 124%; max-width: none; margin-left: -12%; }
+  .header-brand p { margin-left: 3%; margin-right: 3%; }
+  .header-brand .tagline { font-size: 24px; margin-top: -7vw; }   /* LEMA en celular */
+  .header-brand .address { font-size: 15px; }                      /* DIRECCIÓN en celular */
+}
+
+ 
+
+header h1 { 
+  font-size: clamp(2rem, 5vw, 2.8rem); 
+  color: #E9E6DC; 
+  margin-top: 10px;
+  margin-bottom: 5px;
+  text-align: left;     
+}
+
+header p {
+  margin-top: 6px;
+  margin-bottom: 0;
+  color: #9FA2A0;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  line-height: 1.6;
+
+}
+
+
+
+
+
+
+
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 35px 0 10px; margin-top: -30px; position: relative; z-index: 10; }
+  .filters button {
+    background: transparent; border: 1px solid var(--line); color: var(--ink-dim);
+    padding: 7px 14px; border-radius: 20px; font-family: 'Jost'; font-size: 0.8rem;
+    letter-spacing: 0.03em; cursor: pointer; transition: all .2s;
+  }
+  .filters button:hover { border-color: var(--brass); color: var(--brass-soft); }
+  .filters button.active { background: var(--brass); border-color: var(--brass); color: #1B1D22; }
+
+  .grid { padding: 10px 0 60px; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 22px; }
+  .card { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; display: flex; flex-direction: column; }
+  .card-img, .cam { width: 100%; aspect-ratio: 3/4; overflow: hidden; }
+ .card-img img, .cam img { width: 100%; height: 100%; object-fit: cover; display: block; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+  .card-body { padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .tag { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brass-soft); font-family: 'Jost', sans-serif; font-weight: 500; }
+  .card h3 { 
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem; 
+  line-height: 1.25; 
+  font-weight: 700; /* Más gruesa */
+  margin-top: 2px; 
+  }
+
+  .card-desc { font-size: 0.88rem; color: var(--ink-dim); min-height: 40px; }
+  .price { font-family: 'Jost', sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--ink); }
+  
+  .btn-mini {
+    margin-top: auto; display: inline-flex; align-items: center; justify-content: center;
+    padding: 10px 14px; border-radius: 2px; font-size: 0.82rem; letter-spacing: 0.03em;
+    text-transform: uppercase; text-decoration: none; background: var(--brass); color: #1B1D22;
+    font-weight: 500; font-family: 'Jost', sans-serif; transition: background .2s, transform .15s;
+  }
+  .btn-mini:hover { background: var(--brass-soft); }
+  .btn-mini:active { transform: scale(0.98); }
+
+  .about-section {
+    background: var(--bg-alt);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 60px 0;
+    text-align: center;
+  }
+  .about-title {
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .about-text {
+    max-width: 750px;
+    margin: 0 auto 30px;
+    color: var(--ink-dim);
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    line-height: 1.8;
+    padding: 0 20px;
+  }
+  .about-socials {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 0 20px;
+  }
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.2s ease;
+  }
+  .social-link:hover {
+    border-color: var(--brass);
+    color: var(--brass-soft);
+    background: var(--bg);
+  }
+
+  footer { padding: 28px 0; text-align: center; font-size: 0.82rem; color: var(--ink-dim); }
+</style>
+</head>
+<body>
+
+<div class="badge-strip">Catálogo de productos — escriba por WhatsApp para disponibilidad y precio</div>
+
+<header>
+  <div class="header-flex">
+    <div class="header-brand">
+      <img src="logo.jpg" alt="Paris Gentleman" class="logo-header">
+      <p class="tagline">El faro de la elegancia y la distinción</p>
+      <p class="address">Calle 18 # 31-88, Pasto — NOVACENTRO, local 12</p>
+    </div>
+    <div class="header-photo">
+      <img src="tienda_fachada3.jpg" alt="Estilo Paris Gentleman">
+    </div>
+  </div>
+</header>
+
+
+
+<div class="wrap">
+  
+  <!-- Barra de Filtros -->
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="trajes">Trajes</button>
+    <button class="filter-btn" data-filter="camisas">Camisas</button>
+    <button class="filter-btn" data-filter="accesorios">Accesorios</button>
+    <button class="filter-btn" data-filter="accesorios">Pantalones</button>
+    <button class="filter-btn" data-filter="accesorios">Chaquetas</button>
+    <button class="filter-btn" data-filter="accesorios">Tejidos</button>
+  </div>
+
+  <!-- Grilla de Productos -->
+  <div class="grid">
+
+
+      <!-- Prenda 29 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazuls29.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / S</h3>
+          <p class="card-desc">Una prenda para vestir cada día aporta distinción y frescura a tu look</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 30 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazuls30.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / S</h3>
+          <p class="card-desc">Tu estilo, tu mejor presentación, ideal para cada ocasión</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 31 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazuls31.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / S</h3>
+          <p class="card-desc">Aporta comodidad y personalidad para cada día</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 32 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazuls32.jpg" alt="NAGA">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>NAGA / S</h3>
+          <p class="card-desc">Una camisa para dejar huella y elegancia que se nota desde el primer instante</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 33 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <!-- 💡 Se aplicó el filtro micro para corregir el muaré manteniendo tu archivo original -->
+          <img src="camnagas33.jpg" alt="NAGA" style="filter: blur(0.2px);">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>NAGA / S</h3>
+          <p class="card-desc">Luce professional con un estilo auténtico</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+
+      <!-- Prenda 34 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazuls34.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / S</h3>
+          <p class="card-desc">El equilibrio perfecto entre frescura y estilo</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 35 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazuls35.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / S </h3>
+          <p class="card-desc">Viste con distinción, camisas que elevan tu estilo y confianza</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 36 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazulm36.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / M</h3>
+          <p class="card-desc">Camisas que elevan tu estilo y confianza</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 37 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazulm37.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / M</h3>
+          <p class="card-desc">Acabados que marcan la diferencia</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 38 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazulm38.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / M</h3>
+          <p class="card-desc">Un imperdible para lucir siempre impecable</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 39 -->
+      <div class="card" data-category="camisas">
+        <div class="cam">
+          <img src="camcostaazulm39.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / M</h3>
+          <p class="card-desc">La combinación ideal de presencia y sofisticacion</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 40 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazulm40.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / M</h3>
+          <p class="card-desc">Dale un toque especial a tu look</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 41 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazulm41.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / M</h3>
+          <p class="card-desc">Diseños que reflejan tu buen Gusto</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 42 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazull42.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / L</h3>
+          <p class="card-desc">Luce professional con un estilo auténtico</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 43 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazull43.jpg" alt="kosta azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / L</h3>
+          <p class="card-desc">Gambaro manga corta, perfectas para tu estilo de cada día</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 44 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazull44.jpg" alt="NAGA">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / L</h3>
+          <p class="card-desc">Ideal para días que merecen un gran estilo</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 45 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camvosl45.jpg" alt="VO5">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>VO5 / L</h3>
+          <p class="card-desc">Luce impecable en tu trabajo y fuera de el</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 46 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazull46.jpg" alt="Kosta Azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / L</h3>
+          <p class="card-desc">Casual, diseños para salir de lo convencional</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 47 -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazull47.jpg" alt="Kosta Azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / L</h3>
+          <p class="card-desc">Descubre diseños que marcan tendencia</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+
+      <!-- Prenda 55 (Nueva - Talla L) -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camvosxl54.jpg" alt="vos">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>VO5 / XL</h3>
+          <p class="card-desc">Diseños versátiles Para destacar con elegancia</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+      
+      <!-- Prenda 49 (Nueva - Talla XL) -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcosaazulxl49.jpg" alt="Kosta Azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / XL</h3>
+          <p class="card-desc">Dale caracter  a tu estilo con un color sofisticado que destaca en cualquier ocasión</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 50 (Nueva - Talla XL) -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camkostaazulxl48.jpg" alt="Kosta Azul">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>Kosta Azul / XL</h3>
+          <p class="card-desc">Diseños para salir de lo convencional</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 51 (Nueva - Talla XL) -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camcostaazulxl51.jpg" alt="NAGA">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>NAGA / XL</h3>
+          <p class="card-desc">Manga corta, descubre diseños que marcan tendencia</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+      
+      <!-- Prenda 52 (Nueva - Talla XL) -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <!-- 💡 Se aplicó el filtro micro para corregir el muaré manteniendo tu archivo original -->
+          <img src="camvosxl52.jpg" alt="VO5" style="filter: blur(0.2px);">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>VO5 / XL</h3>
+          <p class="card-desc">Ideal para quienes cuidan su presentación</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+
+      <!-- Prenda 53 (Nueva - Talla XL) -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camnagaxl53.jpg" alt="NAGA">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>NAGA / XL</h3>
+          <p class="card-desc">Opciones para cada gusto y ocasión</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+      <!-- Prenda 54 (Nueva - Talla XL) -->
+      <div class="card" data-category="camisas">
+        <div class="card-img">
+          <img src="camvosxl54.jpg" alt="VO5">
+        </div>
+        <div class="card-body">
+          <span class="tag">Camisas</span>
+          <h3>VO5 / XL</h3>
+          <p class="card-desc">Versatilidad y estilo en una sola prenda</p>
+          <a href="https://wa.me" class="btn-mini" target="_blank">Consultar</a>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+<!-- Sección Nosotros con Fotos de la Tienda Física -->
+<style>
+  .about-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    max-width: 1000px;
+    margin: 0 auto 35px;
+    padding: 0 20px;
+    flex-wrap: wrap;
+  }
+  .about-gallery-img {
+    flex: 1;
+    min-width: 160px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  .about-gallery-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 600px) {
+    .about-gallery-img { 
+      min-width: calc(50% - 6px);
+    }
+  }
+
+  /* === AJUSTES DEL ENCABEZADO === */
+  .header-brand .logo-header { position: relative; top: -40px; }   /* sube el logo; subí el 14 para subirlo más */
+  .header-brand .tagline { position: relative; top: -16px; }   /* sube solo el lema */
+  .header-brand .address { margin-left: 0; margin-right: 0; }
+   @media (min-width: 769px) {
+  .header-brand .address { white-space: nowrap; }                 /* una sola línea en PC */
+  }
+   @media (max-width: 768px) {
+  .header-brand .logo-header { top: -8px; }                       /* en celular sube menos */
+  .header-brand .tagline { top: 1px; }                            /* baja el lema solo en celular */
+  }
+
+</style>
+
+<section class="about-section">
+  <div class="wrap">
+    <h2 class="about-title">Paris Gentleman</h2>
+    
+    <!-- Galería con las 5 Fotos del Local e Inspiración -->
+    <div class="about-gallery">
+      <div class="about-gallery-img">
+        <img src="tienda_fachada1.jpg" alt="Local Paris Gentleman Pasto">
+      </div>
+      <div class="about-gallery-img">
+        <img src="tienda_fachada2.jpg" alt="Exhibición Paris Gentleman Pasto">
+      </div>
+    </div>
+
+    <p class="about-text">
+      Especialistas en sastrería y moda masculina de alta calidad en la ciudad de Pasto. Diseños exclusivos para el hombre moderno que busca elegancia, porte y distinción en cada ocasión. Visítanos en Novacentro, local 12.
+    </p>
+    
+         <div class="about-socials">
+        <a href="https://wa.me" class="social-link" target="_blank">WhatsApp</a>
+        <a href="https://www.instagram.com/paris.gentleman_store/" class="social-link" target="_blank">Instagram</a>
+        <a href="https://vm.tiktok.com/ZS9UR2FCb3nvp-YgBLG/" class="social-link" target="_blank">TikTok</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>&copy; 2026 Paris Gentleman. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ==================== CONFIGURACIÓN ====================
+  var NUMERO = "573336128546";   // WhatsApp del negocio
+  var SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS4QbZkbH5LrJVLjY3SJiqIAn27-tC72bcy3TQvPhm54rnY8G9U-JKGYyhqPaHHf4rD55JRJV6tnDLp/pub?output=csv";            // Enlace CSV de Google Sheets (pegalo entre las comillas)
+  var CATEGORIAS = ["Trajes", "Camisas", "Accesorios", "Pantalones", "Chaquetas", "Tejidos"];
+  var OCULTAR_CATEGORIAS_VACIAS = false;   // true = los botones sin prendas no se muestran
+  // =======================================================
+
+  // ==FUNCIONES==
+  function parseCSV(text) {
+    var rows = [], row = [], field = "", inQ = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (inQ) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { inQ = false; } }
+        else { field += c; }
+      } else {
+        if (c === '"') { inQ = true; }
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ""; }
+        else if (c === '\r') { /* se ignora */ }
+        else { field += c; }
+      }
+    }
+    if (field !== "" || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  // minúsculas y sin tildes: "Descripción", "DESCRIPCION" y "descripcion" valen igual
+  function norm(s) {
+    return (s || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  }
+
+  // "Camisa", "camisas" y "CAMISAS" dan la misma clave (igual con "pantalon" y "pantalones")
+  function clave(s) {
+    var k = norm(s).replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+    if (/ones$/.test(k)) return k.slice(0, -2);
+    return k.replace(/s$/, "");
+  }
+
+  // Acepta: nombre de archivo (camisa1.jpg), enlace directo (https://...) o enlace de Google Drive
+  function urlFoto(v) {
+    v = (v || "").trim();
+    if (!v) return "";
+    var m = v.match(/drive\.google\.com\/file\/d\/([\w-]+)/) ||
+            v.match(/drive\.google\.com\/(?:open|uc)\?(?:[^#]*&)?id=([\w-]+)/);
+    if (m) return "https://drive.google.com/thumbnail?id=" + m[1] + "&sz=w1000";
+    if (/^https?:\/\//i.test(v)) return v;
+    return encodeURI(v);
+  }
+
+  function etiquetaDe(cat, categorias) {
+    var k = clave(cat);
+    for (var i = 0; i < categorias.length; i++) { if (clave(categorias[i]) === k) return categorias[i]; }
+    var t = (cat || "").trim() || "Otros";
+    return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+  }
+
+  function leerProductos(texto, categorias) {
+    var filas = parseCSV(texto);
+    if (filas.length < 2) return [];
+    var cab = filas[0].map(norm);
+    var iCat = cab.indexOf("categoria"), iMar = cab.indexOf("marca"), iTal = cab.indexOf("talla");
+    var iDes = cab.indexOf("descripcion"), iFoto = cab.indexOf("foto"), iDisp = cab.indexOf("disponible");
+    if (iCat < 0 || iMar < 0 || iFoto < 0) {
+      throw new Error("Faltan columnas en la fila 1. Deben llamarse: categoria, marca, talla, descripcion, foto");
+    }
+    var lista = [];
+    for (var r = 1; r < filas.length; r++) {
+      var f = filas[r];
+      var g = function (i) { return (i >= 0 && f[i] !== undefined) ? f[i].trim() : ""; };
+      var cat = g(iCat), marca = g(iMar), talla = g(iTal), desc = g(iDes), foto = g(iFoto), disp = norm(g(iDisp));
+      if (!cat && !marca && !desc && !foto) continue;                        // fila vacía
+      if (disp === "no" || disp === "agotado" || disp === "0") continue;    // oculto
+      var etiqueta = etiquetaDe(cat, categorias);
+      lista.push({
+        clave: clave(etiqueta),
+        etiqueta: etiqueta,
+        titulo: (marca + (talla ? " / " + talla : "")) || etiqueta,
+        desc: desc,
+        foto: urlFoto(foto)
+      });
+    }
+    return lista;
+  }
+  // ==FIN==
+
+  var grid = document.querySelector('.grid');
+  var filtersBox = document.querySelector('.filters');
+  if (!grid || !filtersBox) { console.warn('No se encontró .grid o .filters en la página.'); return; }
+
+  // Estilos de apoyo (foto que falta y categoría sin prendas)
+  var st = document.createElement('style');
+  st.textContent =
+    '.img-missing{display:flex;align-items:center;justify-content:center;background:#ECE6DA}' +
+    '.img-missing img{display:none}' +
+    '.card-img.img-missing::after,.cam.img-missing::after{content:"Foto próxima";color:#54585A;font-size:.9rem}' +
+    '.vacio{grid-column:1/-1;text-align:center;padding:50px 20px;color:#54585A;font-size:1.05rem}';
+  document.head.appendChild(st);
+
+  function wa(texto) { return 'https://wa.me/' + NUMERO + '?text=' + encodeURIComponent(texto); }
+
+  function crearCard(p) {
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.setAttribute('data-category', p.clave);
+
+    var wrap = document.createElement('div');
+    wrap.className = 'card-img';
+    if (p.foto) {
+      var img = document.createElement('img');
+      img.src = p.foto; img.alt = p.titulo; img.loading = 'lazy';
+      img.onerror = function () { this.onerror = null; this.parentElement.classList.add('img-missing'); };
+      wrap.appendChild(img);
+    } else {
+      wrap.classList.add('img-missing');
+    }
+    card.appendChild(wrap);
+
+    var body = document.createElement('div');
+    body.className = 'card-body';
+    var tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = p.etiqueta;
+    var h3 = document.createElement('h3'); h3.textContent = p.titulo;
+    var d = document.createElement('p'); d.className = 'card-desc'; d.textContent = p.desc;
+    var a = document.createElement('a'); a.className = 'btn-mini'; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Consultar'; a.href = '#';
+    body.appendChild(tag); body.appendChild(h3); body.appendChild(d); body.appendChild(a);
+    card.appendChild(body);
+    return card;
+  }
+
+  // Las tarjetas de respaldo: la categoría se toma de su etiqueta (ej. "Camisas")
+  function normalizarTarjetas() {
+    grid.querySelectorAll('.card').forEach(function (c) {
+      var tag = c.querySelector('.tag');
+      var k = tag ? clave(tag.textContent.split(/[—–-]/)[0]) : '';
+      if (!k) k = clave(c.getAttribute('data-category') || '');
+      c.setAttribute('data-category', k || 'otros');
+    });
+  }
+
+  function configurarWhatsApp() {
+    grid.querySelectorAll('.card').forEach(function (card) {
+      var boton = card.querySelector('.btn-mini');
+      var nombre = card.querySelector('h3').textContent.trim();
+      if (boton) boton.setAttribute('href', wa('Hola Paris Gentleman, me interesa este producto del catálogo: ' + nombre + '. ¿Me dan información de disponibilidad?'));
+    });
+  }
+
+  function mostrar(valor) {
+    var visibles = 0;
+    grid.querySelectorAll('.card').forEach(function (c) {
+      var ok = (valor === 'all' || c.getAttribute('data-category') === valor);
+      c.style.display = ok ? 'flex' : 'none';
+      if (ok) visibles++;
+    });
+    var aviso = grid.querySelector('.vacio');
+    if (aviso) aviso.parentNode.removeChild(aviso);
+    if (!visibles) {
+      var p = document.createElement('p');
+      p.className = 'vacio';
+      p.textContent = 'Próximamente: estamos preparando esta sección. Escríbenos por WhatsApp y te contamos qué tenemos disponible.';
+      grid.appendChild(p);
+    }
+  }
+
+  function armarFiltros() {
+    var cards = grid.querySelectorAll('.card');
+    var presentes = {};
+    cards.forEach(function (c) { presentes[c.getAttribute('data-category')] = true; });
+
+    var lista = CATEGORIAS.map(function (n) { return { texto: n, clave: clave(n) }; });
+    cards.forEach(function (c) {          // categorías nuevas que vengan de la hoja
+      var k = c.getAttribute('data-category');
+      var existe = lista.some(function (x) { return x.clave === k; });
+      if (!existe) {
+        var tag = c.querySelector('.tag');
+        lista.push({ texto: tag ? tag.textContent.trim() : k, clave: k });
+      }
+    });
+
+    filtersBox.innerHTML = '';
+    function boton(texto, valor, activo) {
+      var b = document.createElement('button');
+      b.className = 'filter-btn' + (activo ? ' active' : '');
+      b.textContent = texto;
+      b.addEventListener('click', function () {
+        filtersBox.querySelectorAll('button').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active');
+        mostrar(valor);
+      });
+      filtersBox.appendChild(b);
+    }
+    boton('Todos', 'all', true);
+    lista.forEach(function (x) {
+      if (OCULTAR_CATEGORIAS_VACIAS && !presentes[x.clave]) return;
+      boton(x.texto, x.clave, false);
+    });
+    mostrar('all');
+  }
+
+  // Botón general de WhatsApp en "Nosotros"
+  var general = document.querySelector('.about-section .social-link[href*="wa.me"]');
+  if (general) general.setAttribute('href', wa('Hola Paris Gentleman, quiero hacer una consulta.'));
+
+  // 1) Con las tarjetas de respaldo que ya están en la página, todo funciona
+  normalizarTarjetas();
+  configurarWhatsApp();
+  armarFiltros();
+
+  // 2) Si hay hoja de Google, se reemplazan por los productos de la hoja
+  if (SHEET_URL) {
+    var ctrl = ('AbortController' in window) ? new AbortController() : null;
+    var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, 10000);
+    fetch(SHEET_URL, { cache: 'no-store', signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(function (txt) {
+        clearTimeout(t);
+        var lista = leerProductos(txt, CATEGORIAS);
+        if (!lista.length) throw new Error('La hoja no tiene productos');
+        grid.innerHTML = '';
+        lista.forEach(function (p) { grid.appendChild(crearCard(p)); });
+        configurarWhatsApp();
+        armarFiltros();
+        console.log('Catálogo cargado desde Google Sheets: ' + lista.length + ' productos');
+      })
+      .catch(function (e) {
+        clearTimeout(t);
+        console.warn('No se pudo leer Google Sheets. Se muestra el catálogo de respaldo.', e);
+      });
+  }
+});
+</script>
+</body>
+</html>
