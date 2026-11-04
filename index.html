@@ -51,12 +51,14 @@ header {
 
 /* Logo + textos en un solo bloque */
 .header-brand {
-  --logo-w: clamp(320px, 58vw, 720px);   /* TAMAÑO DEL LOGO: cambiá el 720px */
+  --logo-w: clamp(240px, 48vw, 780px); /* 👈 Bajamos el mínimo a 240px y ajustamos el porcentaje a 42vw */
   width: var(--logo-w);
   text-align: center;
   position: relative;
   z-index: 3;
+  margin-right: 20px; /* 👈 Espacio de seguridad para que no choque con la foto de la derecha */
 }
+
 .header-brand .logo-header {
   display: block;
   width: 100%;
@@ -225,6 +227,25 @@ header p {
   }
 
   footer { padding: 28px 0; text-align: center; font-size: 0.82rem; color: var(--ink-dim); }
+
+  /* === AJUSTES 2: MONITORES GRANDES Y MOVIMIENTO DE TARJETAS === */
+
+/* Monitores más anchos que 1920px: el logo crece y la foto llena el espacio */
+@media (min-width: 1921px) {
+  .header-flex, .header-brand { --logo-w: clamp(720px, 38vw, 1100px); }
+  .header-photo { left: calc(5vw + var(--logo-w) - 80px); right: 0; width: auto; }
+  .header-brand .tagline { font-size: calc(var(--logo-w) * 0.047); }
+  .header-brand .address { font-size: calc(var(--logo-w) * 0.028); }
+}
+
+/* Tarjetas: se levantan un poco al pasar el mouse */
+.card { transition: transform .25s ease, box-shadow .25s ease; }
+.card:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(27, 29, 34, 0.14); }
+@media (hover: none) { .card:hover { transform: none; box-shadow: none; } }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+
+.header-flex { padding-top: 48px; padding-bottom: 48px; }
+
 </style>
 </head>
 <body>
