@@ -256,7 +256,7 @@ header p {
   <div class="header-flex">
     <div class="header-brand">
       <img src="logo.jpg" alt="Paris Gentleman" class="logo-header">
-      <p class="tagline">El faro de la elegancia y la distinción</p>
+      <p class="tagline">Elegancia & Distinción</p>
       <p class="address">Calle 18 # 31-88, Pasto — NOVACENTRO, local 12</p>
     </div>
     <div class="header-photo">
@@ -850,11 +850,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function configurarWhatsApp() {
+    function configurarWhatsApp() {
     grid.querySelectorAll('.card').forEach(function (card) {
       var boton = card.querySelector('.btn-mini');
-      var nombre = card.querySelector('h3').textContent.trim();
-      if (boton) boton.setAttribute('href', wa('Hola Paris Gentleman, me interesa este producto del catálogo: ' + nombre + '. ¿Me dan información de disponibilidad?'));
+      if (!boton) return;
+
+      var titulo = card.querySelector('h3').textContent.trim();
+      var tagEl = card.querySelector('.tag');
+      var descEl = card.querySelector('.card-desc');
+      var categoria = tagEl ? tagEl.textContent.trim() : '';
+      var desc = descEl ? descEl.textContent.trim() : '';
+      var img = card.querySelector('img');
+
+      var partes = titulo.split('/');
+      var marca = partes[0].trim();
+      var talla = partes[1] ? partes[1].trim() : '';
+
+      var fotoUrl = '';
+      if (img && img.getAttribute('src')) {
+        fotoUrl = new URL(img.getAttribute('src'), location.href).href;
+      }
+
+      var msg = 'Hola Paris Gentleman, me interesa este producto del catálogo:\n\n' +
+        '*' + titulo + '*\n' +
+        'Categoría: ' + categoria + '\n' +
+        'Marca: ' + marca + '\n' +
+        (talla ? 'Talla: ' + talla + '\n' : '') +
+        (desc ? 'Descripción: ' + desc + '\n' : '') +
+        (fotoUrl ? 'Foto: ' + fotoUrl + '\n' : '') +
+        '\n¿Me dan información de disponibilidad?';
+
+      boton.setAttribute('href', wa(msg));
     });
   }
 
